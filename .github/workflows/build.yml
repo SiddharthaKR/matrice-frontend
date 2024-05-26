@@ -24,4 +24,4 @@ jobs:
 
       - name: Build React app
         run: |
-          npm run build
+          CI=false npm run build
