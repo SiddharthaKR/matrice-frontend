@@ -1,70 +1,46 @@
-# Getting Started with Create React App
+## Project Management System - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Overview
+This project implements a project management system with a user-friendly interface built using React.js, Redux, and other modern technologies. The application facilitates project and task management, deadline tracking, user authentication, role-based access control, and search/filter functionality.
 
-## Available Scripts
+### Features
+1. **User Authentication**: Implements user authentication using JWT (JSON Web Tokens) for secure access.
+2. **Dashboard**: Displays an overview of projects, tasks, deadlines, etc.
+3. **Project Management**: Allows users to create, update, and delete projects. Each project can have multiple tasks associated with it.
+4. **Task Management**: Provides functionality to add, edit, and delete tasks within each project.
+5. **Deadline Tracking**: Shows deadlines for projects and tasks for better organization and planning.
+6. **User Roles**: Implements different roles like admin, project manager, and team member with varying levels of access for effective collaboration.
+7. **Search and Filter**: Enables users to search for projects or tasks and filter them based on different criteria for ease of navigation.
+8. **Drag and Drop**: Provides drag and drop feature to update ticket status for efficient task management.
 
-In the project directory, you can run:
+### Technologies Used
+- **Frontend**: React.js
+- **Backend**: NodeJS (or any other RESTful API framework)
+- **Database**: MongoDB
+- **Authentication**: JWT (JSON Web Tokens)
+- **Deployment**: Render
 
-### `yarn start`
+### Codebase
+- Emphasizes writing clean and optimized code with proper project structure and organization.
+- Includes test cases for each external API call in the application backend.
+- Ensures proper error handling and validation for data integrity and security.
+- Implements authentication middleware to authenticate requests using JWT or sessions.
+- Utilizes linting for maintaining code quality standards.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Documentation
+- **README File**: Contains database schema design and system design for the backend.
+- **Setup Instructions**: Provides clear instructions on setting up and running the project locally.
+- **API Documentation**: Details endpoints, request/response formats, and authentication mechanisms.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Notes
+- **User Interface**: Front-end design meets professional standards with proper layout, text, and components matching a particular theme.
+- **Scalability**: Designed to be scalable to handle increased traffic and data volume.
+- **Role-Based Access Control**: Provides role-based access control for ticket update operations, ensuring security and accountability.
 
-### `yarn test`
+### GitHub Repository
+Please find the complete source code and documentation in the [GitHub repository](link-to-repo).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Video Recording
+A video recording demonstrating the implemented features is available [here](link-to-video).
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+For any questions or concerns, please contact [Your Name] at [Your Email].
