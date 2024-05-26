@@ -1,9 +1,9 @@
 import axios from 'axios'
 import queryString from 'query-string'
 
-const baseUrl = 'https://matrice-backend.onrender.com/api/v1/'
+const baseUrl = process.env.ENVIROMENT === 'PROD'? process.env.PROD_URL:'http://127.0.0.1:5000/api/v1/'
 const getToken = () => localStorage.getItem('token')
-
+console.log(baseUrl)
 const axiosClient = axios.create({
   baseURL: baseUrl,
   paramsSerializer: params => queryString.stringify({ params })
