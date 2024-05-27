@@ -63,7 +63,7 @@ function SimpleDialog(props) {
         }
       <List sx={{ pt: 0 }}>
         {datas.map((data) => (
-          <ListItem disableGutters key={data?._id}>
+          <ListItem disableGutters key={data?._id||data?.username}>
             <ListItemButton onClick={() => handleListItemClick(data)}>
               <ListItemAvatar>
                 <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}>

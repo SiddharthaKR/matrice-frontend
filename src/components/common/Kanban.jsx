@@ -22,7 +22,7 @@ let timer;
 const timeout = 500;
 
 const Kanban = (props) => {
-  const isAdmin = props.isAdmin
+  const isAdmin = props.isAdmin;
   const boardId = props.boardId;
   const [data, setData] = useState([]);
   const [selectedTask, setSelectedTask] = useState(undefined);
@@ -145,19 +145,21 @@ const Kanban = (props) => {
     setOpen(true);
   };
 
-  const addMemberToBoard = async(value)=>{
+  const addMemberToBoard = async (value) => {
     try {
-      const {role='Member'} = value
-      const res = await boardApi.addMember(boardId, { userId:value._id,role:role })
+      const { role = "Member" } = value;
+      const res = await boardApi.addMember(boardId, {
+        userId: value._id,
+        role: role,
+      });
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
   const handleClose = (value) => {
     setOpen(false);
     setSelectedValue(value);
-    if(value && value._id)
-    addMemberToBoard(value)
+    if (value && value._id) addMemberToBoard(value);
   };
 
   return (
@@ -169,20 +171,18 @@ const Kanban = (props) => {
           justifyContent: "space-between",
         }}
       >
-        {
-          isAdmin && <Box sx={{ display: "flex" }}>
-          <Button onClick={createSection}>Add section</Button>
-            <Button onClick={handleClickOpen}>
-              ADD USER
-            </Button>
+        {isAdmin && (
+          <Box sx={{ display: "flex" }}>
+            <Button onClick={createSection}>Add section</Button>
+            <Button onClick={handleClickOpen}>ADD USER</Button>
             <SimpleDialog
-              sx={{padding:2}}
-              datas = {users}
+              sx={{ padding: 2 }}
+              datas={users}
               selectedValue={selectedValue}
               open={open}
               onClose={handleClose}
             />
-          {/* <Autocomplete
+            {/* <Autocomplete
             disablePortal
             id="combo-box-demo"
             options={users}
@@ -190,8 +190,8 @@ const Kanban = (props) => {
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Users" />}
           /> */}
-        </Box>
-        }
+          </Box>
+        )}
         <Typography variant="body2" fontWeight="700">
           {data.length} Sections
         </Typography>
@@ -244,28 +244,32 @@ const Kanban = (props) => {
                           },
                         }}
                       />
-                      <IconButton
-                        variant="outlined"
-                        size="small"
-                        sx={{
-                          color: "gray",
-                          "&:hover": { color: "green" },
-                        }}
-                        onClick={() => createTask(section.id)}
-                      >
-                        <AddOutlinedIcon />
-                      </IconButton>
-                      <IconButton
-                        variant="outlined"
-                        size="small"
-                        sx={{
-                          color: "gray",
-                          "&:hover": { color: "red" },
-                        }}
-                        onClick={() => deleteSection(section.id)}
-                      >
-                        <DeleteOutlinedIcon />
-                      </IconButton>
+                      {isAdmin && (
+                        <div>
+                          <IconButton
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                              color: "gray",
+                              "&:hover": { color: "green" },
+                            }}
+                            onClick={() => createTask(section.id)}
+                          >
+                            <AddOutlinedIcon />
+                          </IconButton>
+                          <IconButton
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                              color: "gray",
+                              "&:hover": { color: "red" },
+                            }}
+                            onClick={() => deleteSection(section.id)}
+                          >
+                            <DeleteOutlinedIcon />
+                          </IconButton>
+                        </div>
+                      )}
                     </Box>
                     {/* tasks */}
                     {section.tasks.map((task, index) => (
@@ -310,6 +314,7 @@ const Kanban = (props) => {
         onClose={() => setSelectedTask(undefined)}
         onUpdate={onUpdateTask}
         onDelete={onDeleteTask}
+        isAdmin={isAdmin}
       />
     </>
   );
