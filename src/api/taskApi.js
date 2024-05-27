@@ -6,7 +6,7 @@ const taskApi = {
     `boards/${boardId}/tasks/update-position`,
     params
   ),
-  assign: (boardId, taskId) => axiosClient.post(`boards/${boardId}/tasks/${taskId}/assign`),
+  assign: (boardId, taskId, params) => axiosClient.post(`boards/${boardId}/tasks/${taskId}/assign`,params),
   delete: (boardId, taskId) => axiosClient.delete(`boards/${boardId}/tasks/${taskId}`),
   update: (boardId, taskId, params) => axiosClient.put(
     `boards/${boardId}/tasks/${taskId}`,
