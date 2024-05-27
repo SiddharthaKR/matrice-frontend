@@ -1,46 +1,166 @@
-## Project Management System - Frontend
+# Project Management Dashboard Frontend
 
-### Overview
-This project implements a project management system with a user-friendly interface built using React.js, Redux, and other modern technologies. The application facilitates project and task management, deadline tracking, user authentication, role-based access control, and search/filter functionality.
+## Table of Contents
+- [Introduction](#introduction)
+- [Project Structure](#project-structure)
+- [Setup and Running Locally](#setup-and-running-locally)
+- [Key Components](#key-components)
+- [API Integration](#api-integration)
+- [Authentication Mechanism](#authentication-mechanism)
+- [Styling and Theming](#styling-and-theming)
 
-### Features
-1. **User Authentication**: Implements user authentication using JWT (JSON Web Tokens) for secure access.
-2. **Dashboard**: Displays an overview of projects, tasks, deadlines, etc.
-3. **Project Management**: Allows users to create, update, and delete projects. Each project can have multiple tasks associated with it.
-4. **Task Management**: Provides functionality to add, edit, and delete tasks within each project.
-5. **Deadline Tracking**: Shows deadlines for projects and tasks for better organization and planning.
-6. **User Roles**: Implements different roles like admin, project manager, and team member with varying levels of access for effective collaboration.
-7. **Search and Filter**: Enables users to search for projects or tasks and filter them based on different criteria for ease of navigation.
-8. **Drag and Drop**: Provides drag and drop feature to update ticket status for efficient task management.
+## Introduction
+This frontend application serves a Project Management Dashboard, providing an overview of projects, tasks, deadlines, etc. Users can see the projects they are a member of, categorized by their roles (admin or member). The application is built using React and Material-UI.
 
-### Technologies Used
-- **Frontend**: React.js
-- **Backend**: NodeJS (or any other RESTful API framework)
-- **Database**: MongoDB
-- **Authentication**: JWT (JSON Web Tokens)
-- **Deployment**: Render
+## Project Structure
+```
+project-management-dashboard/
+├── public/
+│   ├── index.html
+│   └── ...
+├── src/
+│   ├── api/
+│   │   ├── authApi.js
+│   │   ├── boardApi.js
+│   │   ├── sectionApi.js
+│   │   ├── taskApi.js
+│   │   └── ...
+│   ├── components/
+│   │   ├── Auth/
+│   │   │   ├── Login.js
+│   │   │   ├── Register.js
+│   │   │   └── ...
+│   │   ├── Dashboard/
+│   │   │   ├── DashboardOverview.js
+│   │   │   └── ...
+│   │   ├── Kanban/
+│   │   │   ├── Kanban.js
+│   │   │   ├── TaskModal.js
+│   │   │   ├── SimpleDialog.js
+│   │   │   └── ...
+│   │   ├── Layout/
+│   │   │   ├── Header.js
+│   │   │   └── Sidebar.js
+│   │   └── ...
+│   ├── context/
+│   │   ├── AuthContext.js
+│   │   └── ...
+│   ├── hooks/
+│   │   ├── useAuth.js
+│   │   └── ...
+│   ├── App.js
+│   ├── index.js
+│   └── ...
+├── .env
+└── package.json
+```
 
-### Codebase
-- Emphasizes writing clean and optimized code with proper project structure and organization.
-- Includes test cases for each external API call in the application backend.
-- Ensures proper error handling and validation for data integrity and security.
-- Implements authentication middleware to authenticate requests using JWT or sessions.
-- Utilizes linting for maintaining code quality standards.
+## Setup and Running Locally
+### Prerequisites
+- Node.js and npm installed
 
-### Documentation
-- **README File**: Contains database schema design and system design for the backend.
-- **Setup Instructions**: Provides clear instructions on setting up and running the project locally.
-- **API Documentation**: Details endpoints, request/response formats, and authentication mechanisms.
+### Steps
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/your-repo/project-management-dashboard.git
+   cd project-management-dashboard/frontend
+   ```
 
-### Notes
-- **User Interface**: Front-end design meets professional standards with proper layout, text, and components matching a particular theme.
-- **Scalability**: Designed to be scalable to handle increased traffic and data volume.
-- **Role-Based Access Control**: Provides role-based access control for ticket update operations, ensuring security and accountability.
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-### GitHub Repository
-Please find the complete source code and documentation in the [GitHub repository](link-to-repo).
+3. **Set Up Environment Variables**
+   Create a `.env` file in the root directory with the following content:
+   ```plaintext
+   REACT_APP_API_URL=http://localhost:5000/api
+   ```
 
-### Video Recording
-A video recording demonstrating the implemented features is available [here](link-to-video).
+4. **Run the Application**
+   ```bash
+   npm start
+   ```
 
-For any questions or concerns, please contact [Your Name] at [Your Email].
+5. **Frontend is now running at** `http://localhost:3000`
+
+## Key Components
+### Kanban Component
+The `Kanban` component is the core of the task management system, allowing users to view and manage tasks within different sections. It uses the `react-beautiful-dnd` library for drag-and-drop functionality.
+
+### TaskModal Component
+The `TaskModal` component provides a detailed view of individual tasks, allowing users to edit task details, assign members, and set deadlines.
+
+### DashboardOverview Component
+The `DashboardOverview` component provides a high-level view of the user's projects, tasks, and deadlines, categorized by their role in the project.
+
+### SimpleDialog Component
+The `SimpleDialog` component is used to add new members to a project, providing a simple user interface for selecting users and assigning roles.
+
+## API Integration
+API requests are handled by the `api` module, which contains separate files for each resource (e.g., `authApi.js`, `boardApi.js`, `sectionApi.js`, `taskApi.js`). These files define functions for making HTTP requests to the backend endpoints using `axios`.
+
+### Example: Fetching Boards
+```javascript
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API_URL;
+
+const getBoards = async () => {
+  const response = await axios.get(`${API_URL}/boards`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  return response.data;
+};
+
+export default {
+  getBoards,
+  // other board-related API functions
+};
+```
+
+## Authentication Mechanism
+The frontend uses JWT (JSON Web Tokens) for authentication. Upon successful login, the JWT token is stored in `localStorage` and included in the Authorization header of subsequent API requests.
+
+### Example: Login Function
+```javascript
+import axios from 'axios';
+
+const API_URL = process.env.REACT_APP_API_URL;
+
+const login = async (username, password) => {
+  const response = await axios.post(`${API_URL}/auth/login`, { username, password });
+  if (response.data.token) {
+    localStorage.setItem('token', response.data.token);
+  }
+  return response.data;
+};
+
+export default {
+  login,
+  // other auth-related API functions
+};
+```
+
+## Styling and Theming
+The application uses Material-UI for styling and theming. Components are styled using Material-UI's `sx` prop and `makeStyles` utility.
+
+### Example: Styling a Component
+```javascript
+import { Box, Typography } from '@mui/material';
+
+const Header = () => {
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px', backgroundColor: '#3f51b5', color: 'white' }}>
+      <Typography variant="h6">Project Management Dashboard</Typography>
+    </Box>
+  );
+};
+
+export default Header;
+```
+
+## Conclusion
+This documentation provides an overview of the frontend setup, including project structure, steps to run the project locally, key components, API integration, authentication mechanism, and styling. Follow the provided instructions to set up and run the project, and refer to the code examples for integrating with the backend API and implementing various features.
