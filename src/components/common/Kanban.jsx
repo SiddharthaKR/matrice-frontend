@@ -17,6 +17,7 @@ import taskApi from "../../api/taskApi";
 import TaskModal from "./TaskModal";
 import SimpleDialog from "./SimpleDialog";
 import boardApi from "../../api/boardApi";
+import Moment from "moment";
 
 let timer;
 const timeout = 500;
@@ -28,12 +29,15 @@ const Kanban = (props) => {
   const [selectedTask, setSelectedTask] = useState(undefined);
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState({});
+  const [deadline, setDeadline] = useState("");
 
   const users = props.users || [];
 
   useEffect(() => {
+    console.log(props.data)
     setData(props.data);
-  }, [props.data]);
+    setDeadline(Moment(props.deadline).format('YYYY-MM-DD'))
+  }, [props.data,props.deadline]);
 
   const onDragEnd = async ({ source, destination }) => {
     if (!destination) return;
@@ -103,6 +107,19 @@ const Kanban = (props) => {
     timer = setTimeout(async () => {
       try {
         await sectionApi.update(boardId, sectionId, { title: newTitle });
+      } catch (err) {
+        alert(err);
+      }
+    }, timeout);
+  };
+
+  const updateDeadline = async (e) => {
+    clearTimeout(timer);
+    const newDeadline = e.target.value;
+    setDeadline(newDeadline);
+    timer = setTimeout(async () => {
+      try {
+        await boardApi.update(boardId, { deadline: newDeadline });
       } catch (err) {
         alert(err);
       }
@@ -192,9 +209,35 @@ const Kanban = (props) => {
           /> */}
           </Box>
         )}
-        <Typography variant="body2" fontWeight="700">
+        
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flexStart",
+            alignItems: "ceter",
+            marginTop: "6px",
+          }}
+        >
+          <Typography variant="body2" fontWeight="700">
+            DEADLINE:{" "}
+            <input
+              style={{
+                background: "transparent",
+                fontSize: "18px",
+                color: "white",
+                border: "none",
+                marginLeft: "6px",
+              }}
+              type="date"
+              value={deadline}
+              onChange={updateDeadline}
+              disabled={!props.isAdmin}
+            />
+          </Typography>
+          <Typography variant="body2" fontWeight="700">
           {data.length} Sections
         </Typography>
+        </Box>
       </Box>
       <Divider sx={{ margin: "10px 0" }} />
       <DragDropContext onDragEnd={isAdmin ? onDragEnd : undefined}>

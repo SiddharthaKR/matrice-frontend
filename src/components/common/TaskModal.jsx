@@ -46,6 +46,7 @@ const TaskModal = (props) => {
   const [currUserTask, setcurrUserTask] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [deadline, setDeadline] = useState("");
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState({});
   const [users, setUsers] = useState([]);
@@ -55,6 +56,7 @@ const TaskModal = (props) => {
     setTask(props.task);
     setTitle(props.task !== undefined ? props.task.title : "");
     setContent(props.task !== undefined ? props.task.content : "");
+    setDeadline(props.task !== undefined ? Moment(props.task.deadline).format('YYYY-MM-DD') : "");
     console.log(user.username,props.task?.assignedTo?.username)
     if (task?.assignedTo)
       setcurrUserTask(user.username == props.task?.assignedTo?.username);
@@ -126,6 +128,22 @@ const TaskModal = (props) => {
       setContent(data);
       props.onUpdate(task);
     }
+  };
+
+  const updateDeadline = async (e) => {
+    clearTimeout(timer);
+    const newDeadline = e.target.value;
+    setDeadline(newDeadline);
+    timer = setTimeout(async () => {
+      try {
+        await taskApi.update(boardId, task.id, { deadline: newDeadline });
+      } catch (err) {
+        alert(err);
+      }
+    }, timeout);
+
+    task.deadline = newDeadline;
+    props.onUpdate(task);
   };
 
   const handleClickOpen = () => {
@@ -210,10 +228,19 @@ const TaskModal = (props) => {
               }}
             />
             <Typography variant="body2" fontWeight="700">
-              {task !== undefined
+              CREATED AT: {task !== undefined
                 ? Moment(task.createdAt).format("YYYY-MM-DD")
                 : ""}
             </Typography>
+            <Box sx={{display:'flex', justifyContent:'flexStart',alignItems:'ceter',marginTop:'6px'}}>
+            <Typography variant="body2" fontWeight="700">
+              DEADLINE: <input style={{background:'transparent',fontSize: '18px',color:'white',border:'none',marginLeft:'6px'}} type="date" 
+              value={deadline}
+              onChange={updateDeadline}
+              disabled = {!props.isAdmin}
+              />
+            </Typography>
+            </Box>
             <Divider sx={{ margin: "1.5rem 0" }} />
             <Box
               ref={editorWrapperRef}
