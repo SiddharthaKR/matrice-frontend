@@ -1,4 +1,4 @@
-import { Backdrop, Fade, IconButton, Modal, Box, TextField, Typography, Divider } from '@mui/material'
+import { Backdrop, Fade, IconButton, Modal, Box, TextField, Typography, Divider, Button } from '@mui/material'
 import React, { useEffect, useRef, useState } from 'react'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import Moment from 'moment'
@@ -7,6 +7,8 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import taskApi from '../../api/taskApi'
 
 import '../../css/custom-editor.css'
+import SimpleDialog from './SimpleDialog'
+import boardApi from '../../api/boardApi'
 
 const modalStyle = {
   outline: 'none',
@@ -31,6 +33,9 @@ const TaskModal = props => {
   const [task, setTask] = useState(props.task)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState({});
+  const [users, setUsers] = useState([]);
   const editorWrapperRef = useRef()
 
   useEffect(() => {
@@ -43,6 +48,7 @@ const TaskModal = props => {
       updateEditorHeight()
     }
   }, [props.task])
+
 
   const updateEditorHeight = () => {
     setTimeout(() => {
@@ -106,6 +112,24 @@ const TaskModal = props => {
     }
   }
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const assignTask = async(value)=>{
+    try {
+      const res = await taskApi.assign(boardId,task.id, { userId:value.userId})
+    } catch (err) {
+      console.log(err)
+    }
+  }
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+    if(value && value._id)
+    assignTask(value)
+  };
+  
   return (
     <Modal
       open={task !== undefined}
@@ -122,6 +146,17 @@ const TaskModal = props => {
             justifyContent: 'flex-end',
             width: '100%'
           }}>
+            <Button onClick={handleClickOpen}>
+              ASSIGN
+            </Button>
+            <SimpleDialog
+              flag={true}
+              sx={{padding:2}}
+              datas = {props.members}
+              selectedValue={selectedValue}
+              open={open}
+              onClose={handleClose}
+            />
             <IconButton variant='outlined' color='error' onClick={deleteTask}>
               <DeleteOutlinedIcon />
             </IconButton>

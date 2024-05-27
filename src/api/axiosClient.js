@@ -3,7 +3,7 @@ import queryString from 'query-string'
 
 const baseUrl = 'https://matrice-backend.onrender.com/api/v1/'
 const getToken = () => localStorage.getItem('token')
-
+console.log(baseUrl)
 const axiosClient = axios.create({
   baseURL: baseUrl,
   paramsSerializer: params => queryString.stringify({ params })
