@@ -35,6 +35,7 @@ const Board = () => {
   const [members, setMembers] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [open, setOpen] = useState(false);
+  const [deadline, setDeadline] = useState("");
   const boards = useSelector((state) => state.board.value);
   const favouriteList = useSelector((state) => state.favourites.value);
 
@@ -48,7 +49,7 @@ const Board = () => {
         setIsFavourite(res.favourite);
         setIcon(res.icon);
         setIsAdmin(res.isAdmin);
-        console.log(res);
+        setDeadline(res.deadline);
       } catch (err) {
         alert(err);
       }
@@ -297,6 +298,7 @@ const Board = () => {
         <Box>
           {/* Kanban board */}
           <Kanban
+            deadline={deadline}
             data={sections}
             boardId={boardId}
             users={users}
